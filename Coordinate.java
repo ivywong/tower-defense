@@ -1,25 +1,25 @@
 public class Coordinate{ 
-    private int x; 
-    private int y; 
+    private double x; 
+    private double y; 
     public void setX(int value){ 
-    x = value; 
+	x = value; 
     }
-    public Coordinate(int xin, int yin){
+    public Coordinate(double xin, double yin){
 	x = xin;
 	y = yin;
     }
-    public void setY(int value){ 
-    y = value; 
+    public void setY(double value){ 
+	y = value; 
     } 
-    public int getX(){ 
-    return x; 
+    public double getX(){ 
+	return x; 
     } 
-    public int getY(){ 
-    return y; 
+    public double getY(){ 
+	return y; 
     } 
-    public void setXY(int xvalue, int yvalue){ 
-    x = xvalue; 
-    y = yvalue; 
+    public void setXY(double xvalue, double yvalue){ 
+	x = xvalue; 
+	y = yvalue; 
     } 
     public String toString(){ 
 	return "(" + x + "," + y + ")"; 

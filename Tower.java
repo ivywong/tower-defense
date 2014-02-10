@@ -8,20 +8,9 @@ import java.util.*;
 public class Tower extends Entity{
     //Instance Variables
 
-    private int range, speed, cost;
-
-    public Tower(){
-	try {
-	    pic = ImageIO.read(new File("images/tower.png")); //read in image
-	} catch (IOException e){
-	    System.out.println("ERROR LOADING IMAGE");
-	}
-	name = "Generic Tower";
-        coor = new Coordinate(0,0);
-	range = 5;
-	cost = 100;
-	speed = 5;
-    }
+    protected int range, rate, cost, damage, reloadTimer; //gets later?
+    protected boolean selected;
+    protected Enemy target;
 
     public Tower(int x, int y){
 	try {
@@ -31,12 +20,51 @@ public class Tower extends Entity{
 	}
 	name = "Generic Tower";
         coor = new Coordinate(x,y);
-	range = 250;
+	range = 150;
 	cost = 100;
-	speed = 5;
+	rate = 5;
+	damage = 10;
+	reloadTimer = 0;
+	isDead = false;
+	selected = false;
     }
 
-    public Enemy target(ArrayList<Enemy> enemies){
+    public void setReloadTimer(int reloadTimer){
+	this.reloadTimer = reloadTimer;
+    }
+
+    public int getReloadTimer(){
+	return reloadTimer;
+    }
+
+    public int getCost(){
+	return cost;
+    }
+
+    public int getRange(){
+	return range;
+    }
+    
+    public int getDamage(){
+	return damage;
+    }
+    
+    public int getRate(){
+	return rate;
+    }
+    public void setRange(int range){
+	this.range = range;
+    }
+
+    public boolean isSelected(){
+	return selected;
+    }
+
+    public void setSelected(boolean selected){
+	this.selected = selected;
+    }
+
+    public void target(ArrayList<Enemy> enemies){
 	double[] distances = new double[enemies.size()];
 	//fix null pointer exception when no enemies present
 	for (int i = 0; i < distances.length; i++){
@@ -46,13 +74,27 @@ public class Tower extends Entity{
 	//later closest etc
 
 	for (int i = 0; i < distances.length; i++){
-	    if (distances[i] < range){
-		return enemies.get(i);
+	    Enemy current = enemies.get(i);
+	    if (distances[i] < range && current.isDead == false){
+		target = current;
+		return;
 	    }
 	}
-	return null; //no targets in range
+	target = null; //no targets in range
     }
 
+    public void attack(Enemy enemy){
+	if (enemy.isDead == false){
+	    enemy.health-=damage;
+	    reloadTimer = 50;
+	    System.out.println("Hit for " + damage + "damage!");
+	}
+    }
+
+    public void die(){
+	isDead = true;
+	//add selling stuff here
+    }
 
 
 }
